@@ -1,0 +1,475 @@
+<!DOCTYPE html>
+<html lang="pt-BR">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Login — Sentinela Lilás</title>
+<link href="https://fonts.googleapis.com/css2?family=Cormorant+Garamond:wght@300;400;600&family=DM+Sans:wght@300;400;500&display=swap" rel="stylesheet">
+<script src="https://accounts.google.com/gsi/client" async defer></script>
+<style>
+  *, *::before, *::after { margin: 0; padding: 0; box-sizing: border-box; }
+
+  :root {
+    --purple-deep: #0d0010;
+    --purple-mid: #3b1060;
+    --purple-accent: #7c3aed;
+    --purple-light: #c084fc;
+    --lilac: #e9d5ff;
+    --white: #ffffff;
+    --glass: rgba(255,255,255,0.05);
+    --glass-border: rgba(255,255,255,0.12);
+  }
+
+  body {
+    min-height: 100vh;
+    display: grid;
+    grid-template-columns: 1fr 1fr;
+    background: var(--purple-deep);
+    font-family: 'DM Sans', sans-serif;
+    overflow: hidden;
+  }
+
+  
+  .side-visual {
+    position: relative;
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    align-items: center;
+    padding: 60px;
+    overflow: hidden;
+  }
+
+  .side-visual::before {
+    content: '';
+    position: absolute;
+    inset: 0;
+    background: linear-gradient(135deg, #1a0030 0%, #3b1060 50%, #1a0030 100%);
+  }
+
+  .orb-bg {
+    position: absolute;
+    border-radius: 50%;
+    filter: blur(60px);
+    opacity: 0.4;
+  }
+  .orb-bg.a { width: 400px; height: 400px; background: #7c3aed; top: -100px; left: -100px; animation: drift 10s ease-in-out infinite alternate; }
+  .orb-bg.b { width: 300px; height: 300px; background: #c084fc; bottom: -50px; right: -50px; animation: drift 12s ease-in-out infinite alternate-reverse; }
+
+  @keyframes drift {
+    from { transform: translate(0,0); }
+    to { transform: translate(40px,30px); }
+  }
+
+  /* Imagem da pessoa + overlay */
+  .hero-image {
+    position: absolute;
+    inset: 0;
+    background: url('pessoa.png') center/cover no-repeat;
+    opacity: 0.25;
+    mask-image: linear-gradient(to right, transparent 0%, rgba(0,0,0,0.6) 30%, rgba(0,0,0,0.8) 60%, transparent 100%);
+    -webkit-mask-image: linear-gradient(to right, transparent 0%, rgba(0,0,0,0.6) 30%, rgba(0,0,0,0.8) 60%, transparent 100%);
+  }
+
+  .visual-content {
+    position: relative;
+    z-index: 2;
+    text-align: center;
+  }
+
+  .visual-logo {
+    width: 90px;
+    filter: drop-shadow(0 0 20px rgba(192,132,252,0.7));
+    animation: pulse-glow 3s ease-in-out infinite;
+    margin-bottom: 28px;
+  }
+
+  @keyframes pulse-glow {
+    0%, 100% { filter: drop-shadow(0 0 15px rgba(192,132,252,0.5)); }
+    50% { filter: drop-shadow(0 0 35px rgba(192,132,252,0.9)); }
+  }
+
+  .visual-content h1 {
+    font-family: 'Cormorant Garamond', serif;
+    font-size: 3.2rem;
+    font-weight: 300;
+    color: var(--white);
+    line-height: 1.1;
+    letter-spacing: 0.08em;
+  }
+
+  .visual-content h1 em {
+    font-style: normal;
+    color: var(--purple-light);
+    font-weight: 600;
+  }
+
+  .visual-content p {
+    margin-top: 16px;
+    font-size: 0.78rem;
+    letter-spacing: 0.3em;
+    text-transform: uppercase;
+    color: rgba(255,255,255,0.4);
+  }
+
+  /* Stats badges */
+  .stats-row {
+    display: flex;
+    gap: 16px;
+    margin-top: 48px;
+    justify-content: center;
+  }
+
+  .stat-badge {
+    background: rgba(255,255,255,0.06);
+    border: 1px solid rgba(255,255,255,0.1);
+    border-radius: 12px;
+    padding: 14px 20px;
+    text-align: center;
+    backdrop-filter: blur(10px);
+  }
+
+  .stat-badge strong {
+    display: block;
+    font-family: 'Cormorant Garamond', serif;
+    font-size: 1.6rem;
+    color: var(--purple-light);
+    font-weight: 600;
+  }
+
+  .stat-badge span {
+    font-size: 0.65rem;
+    letter-spacing: 0.15em;
+    text-transform: uppercase;
+    color: rgba(255,255,255,0.4);
+  }
+
+  
+  .side-form {
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    align-items: center;
+    padding: 60px 50px;
+    background: #080010;
+    position: relative;
+  }
+
+  .side-form::before {
+    content: '';
+    position: absolute;
+    top: 0; left: 0;
+    width: 1px;
+    height: 100%;
+    background: linear-gradient(to bottom, transparent, rgba(124,58,237,0.5), transparent);
+  }
+
+  .form-box {
+    width: 100%;
+    max-width: 380px;
+    animation: slideUp 0.8s ease both;
+  }
+
+  @keyframes slideUp {
+    from { opacity: 0; transform: translateY(30px); }
+    to { opacity: 1; transform: translateY(0); }
+  }
+
+  .form-box h2 {
+    font-family: 'Cormorant Garamond', serif;
+    font-size: 2rem;
+    font-weight: 300;
+    color: var(--white);
+    margin-bottom: 6px;
+  }
+
+  .form-box > p {
+    font-size: 0.8rem;
+    color: rgba(255,255,255,0.35);
+    margin-bottom: 36px;
+    letter-spacing: 0.05em;
+  }
+
+  /* Campo de input */
+  .field {
+    margin-bottom: 18px;
+    position: relative;
+  }
+
+  .field label {
+    display: block;
+    font-size: 0.7rem;
+    letter-spacing: 0.15em;
+    text-transform: uppercase;
+    color: rgba(255,255,255,0.4);
+    margin-bottom: 8px;
+  }
+
+  .field input {
+    width: 100%;
+    padding: 14px 18px;
+    background: rgba(255,255,255,0.04);
+    border: 1px solid rgba(255,255,255,0.1);
+    border-radius: 10px;
+    color: var(--white);
+    font-family: 'DM Sans', sans-serif;
+    font-size: 0.9rem;
+    outline: none;
+    transition: border-color 0.3s, background 0.3s, box-shadow 0.3s;
+  }
+
+  .field input:focus {
+    border-color: var(--purple-accent);
+    background: rgba(124,58,237,0.08);
+    box-shadow: 0 0 0 3px rgba(124,58,237,0.15);
+  }
+
+  .field input::placeholder { color: rgba(255,255,255,0.2); }
+
+  /* Botão entrar */
+  .btn-entrar {
+    width: 100%;
+    padding: 15px;
+    background: linear-gradient(135deg, #7c3aed, #a855f7);
+    border: none;
+    border-radius: 10px;
+    color: white;
+    font-family: 'DM Sans', sans-serif;
+    font-size: 0.85rem;
+    font-weight: 500;
+    letter-spacing: 0.12em;
+    text-transform: uppercase;
+    cursor: pointer;
+    margin-top: 6px;
+    transition: all 0.3s;
+    position: relative;
+    overflow: hidden;
+  }
+
+  .btn-entrar::before {
+    content: '';
+    position: absolute;
+    inset: 0;
+    background: linear-gradient(135deg, #a855f7, #c084fc);
+    opacity: 0;
+    transition: opacity 0.3s;
+  }
+
+  .btn-entrar:hover::before { opacity: 1; }
+  .btn-entrar:hover { transform: translateY(-1px); box-shadow: 0 8px 25px rgba(124,58,237,0.4); }
+  .btn-entrar span { position: relative; z-index: 1; }
+
+  /* Divisor */
+  .divisor {
+    display: flex;
+    align-items: center;
+    gap: 12px;
+    margin: 22px 0;
+  }
+
+  .divisor::before, .divisor::after {
+    content: '';
+    flex: 1;
+    height: 1px;
+    background: rgba(255,255,255,0.08);
+  }
+
+  .divisor span {
+    font-size: 0.7rem;
+    color: rgba(255,255,255,0.25);
+    letter-spacing: 0.1em;
+    text-transform: uppercase;
+  }
+
+  /* Botão Google customizado */
+  .btn-google {
+    width: 100%;
+    padding: 13px;
+    background: rgba(255,255,255,0.04);
+    border: 1px solid rgba(255,255,255,0.1);
+    border-radius: 10px;
+    color: rgba(255,255,255,0.7);
+    font-family: 'DM Sans', sans-serif;
+    font-size: 0.85rem;
+    cursor: pointer;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    gap: 10px;
+    transition: all 0.3s;
+  }
+
+  .btn-google:hover {
+    background: rgba(255,255,255,0.08);
+    border-color: rgba(255,255,255,0.2);
+    transform: translateY(-1px);
+  }
+
+  .btn-google svg { width: 18px; height: 18px; flex-shrink: 0; }
+
+  /* Footer */
+  .form-footer {
+    margin-top: 32px;
+    text-align: center;
+    font-size: 0.65rem;
+    letter-spacing: 0.1em;
+    color: rgba(255,255,255,0.2);
+    text-transform: uppercase;
+  }
+
+  /* Tema toggle */
+  .btn-tema {
+    position: absolute;
+    top: 24px; right: 24px;
+    background: rgba(255,255,255,0.06);
+    border: 1px solid rgba(255,255,255,0.1);
+    color: white;
+    width: 40px; height: 40px;
+    border-radius: 50%;
+    cursor: pointer;
+    font-size: 1rem;
+    display: flex; align-items: center; justify-content: center;
+    transition: all 0.3s;
+  }
+
+  .btn-tema:hover { background: rgba(255,255,255,0.12); }
+
+  /* Modo claro */
+  body.light {
+    --purple-deep: #f5f0ff;
+  }
+
+  body.light .side-form {
+    background: #faf8ff;
+  }
+
+  body.light .form-box h2 { color: #1a0030; }
+  body.light .form-box > p { color: #6b7280; }
+  body.light .field label { color: #6b7280; }
+  body.light .field input {
+    background: rgba(0,0,0,0.03);
+    border-color: rgba(0,0,0,0.12);
+    color: #1a0030;
+  }
+  body.light .field input:focus {
+    border-color: var(--purple-accent);
+    background: rgba(124,58,237,0.04);
+  }
+  body.light .field input::placeholder { color: rgba(0,0,0,0.3); }
+  body.light .divisor::before, body.light .divisor::after { background: rgba(0,0,0,0.1); }
+  body.light .divisor span { color: rgba(0,0,0,0.3); }
+  body.light .btn-google {
+    background: rgba(0,0,0,0.03);
+    border-color: rgba(0,0,0,0.12);
+    color: #374151;
+  }
+  body.light .btn-google:hover { background: rgba(0,0,0,0.06); }
+  body.light .form-footer { color: rgba(0,0,0,0.25); }
+  body.light .side-form::before { background: linear-gradient(to bottom, transparent, rgba(124,58,237,0.2), transparent); }
+  body.light .btn-tema { border-color: rgba(0,0,0,0.1); color: #333; background: white; }
+</style>
+</head>
+<body>
+
+<!-- LADO VISUAL -->
+<div class="side-visual">
+  <div class="hero-image"></div>
+  <div class="orb-bg a"></div>
+  <div class="orb-bg b"></div>
+  <div class="visual-content">
+    <img class="visual-logo" src="image.png" alt="Logo">
+    <h1>SENTINELA<br><em>LILÁS</em></h1>
+    <p>Inteligência e Proteção · SENAC-PE</p>
+    <div class="stats-row">
+      <div class="stat-badge">
+        <strong>88</strong>
+        <span>Feminicídios</span>
+      </div>
+      <div class="stat-badge">
+        <strong>53k</strong>
+        <span>Violências</span>
+      </div>
+      <div class="stat-badge">
+        <strong>25k</strong>
+        <span>Medidas</span>
+      </div>
+    </div>
+  </div>
+</div>
+
+<!-- FORMULÁRIO -->
+<div class="side-form">
+  <button class="btn-tema" id="themeBtn">🌙</button>
+
+  <div class="form-box">
+    <h2>Bem-vinda</h2>
+    <p>Acesse sua conta para continuar</p>
+
+    <form onsubmit="entrar(event)">
+      <div class="field">
+        <label>E-mail</label>
+        <input type="email" placeholder="seu@email.com" required>
+      </div>
+      <div class="field">
+        <label>Senha</label>
+        <input type="password" placeholder="••••••••" required>
+      </div>
+      <button type="submit" class="btn-entrar"><span>Entrar</span></button>
+    </form>
+
+    <div class="divisor"><span>ou continue com</span></div>
+
+    <button class="btn-google" onclick="googleSignIn()">
+      <svg viewBox="0 0 24 24" xmlns="http://www.w3.org/2000/svg">
+        <path d="M22.56 12.25c0-.78-.07-1.53-.2-2.25H12v4.26h5.92c-.26 1.37-1.04 2.53-2.21 3.31v2.77h3.57c2.08-1.92 3.28-4.74 3.28-8.09z" fill="#4285F4"/>
+        <path d="M12 23c2.97 0 5.46-.98 7.28-2.66l-3.57-2.77c-.98.66-2.23 1.06-3.71 1.06-2.86 0-5.29-1.93-6.16-4.53H2.18v2.84C3.99 20.53 7.7 23 12 23z" fill="#34A853"/>
+        <path d="M5.84 14.09c-.22-.66-.35-1.36-.35-2.09s.13-1.43.35-2.09V7.07H2.18C1.43 8.55 1 10.22 1 12s.43 3.45 1.18 4.93l2.85-2.22.81-.62z" fill="#FBBC05"/>
+        <path d="M12 5.38c1.62 0 3.06.56 4.21 1.64l3.15-3.15C17.45 2.09 14.97 1 12 1 7.7 1 3.99 3.47 2.18 7.07l3.66 2.84c.87-2.6 3.3-4.53 6.16-4.53z" fill="#EA4335"/>
+      </svg>
+      Entrar com Google
+    </button>
+
+    <!-- Google GSI oculto -->
+    <div id="g_id_onload"
+         data-client_id="SEU_CLIENT_ID_AQUI.apps.googleusercontent.com"
+         data-callback="handleGoogleLogin"
+         data-auto_prompt="false"
+         style="display:none">
+    </div>
+
+    <div class="form-footer">Sentinela Lilás · SENAC Pernambuco · 2025</div>
+  </div>
+</div>
+
+<script src="script.js"></script>
+<script>
+  // Tema
+  const themeBtn = document.getElementById('themeBtn');
+  if (localStorage.getItem('tema') === 'light') {
+    document.body.classList.add('light');
+    themeBtn.textContent = '☀️';
+  }
+  themeBtn.onclick = () => {
+    document.body.classList.toggle('light');
+    const isLight = document.body.classList.contains('light');
+    themeBtn.textContent = isLight ? '☀️' : '🌙';
+    localStorage.setItem('tema', isLight ? 'light' : 'dark');
+  };
+
+  // Botão Google visual dispara o GSI
+  function googleSignIn() {
+    google?.accounts?.id?.prompt();
+  }
+
+  function handleGoogleLogin(response) {
+    const payload = JSON.parse(atob(response.credential.split('.')[1]));
+    sessionStorage.setItem("usuario", JSON.stringify({
+      nome: payload.name,
+      email: payload.email,
+      foto: payload.picture
+    }));
+    window.location.href = "Dashboard.html";
+  }
+</script>
+</body>
+</html>

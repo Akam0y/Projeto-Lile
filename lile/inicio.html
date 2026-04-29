@@ -1,0 +1,224 @@
+<!DOCTYPE html>
+<html lang="pt-br">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Sentinela Lilás</title>
+<link href="https://fonts.googleapis.com/css2?family=Cormorant+Garamond:wght@300;400;600&family=DM+Sans:wght@300;400;500&display=swap" rel="stylesheet">
+<style>
+  *, *::before, *::after { margin: 0; padding: 0; box-sizing: border-box; }
+
+  body {
+    height: 100vh;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    background: #0d0010;
+    overflow: hidden;
+    font-family: 'DM Sans', sans-serif;
+  }
+
+  /* Orbs de fundo */
+  .orb {
+    position: absolute;
+    border-radius: 50%;
+    filter: blur(80px);
+    opacity: 0.35;
+    animation: drift 8s ease-in-out infinite alternate;
+  }
+  .orb1 { width: 500px; height: 500px; background: #6a1b9a; top: -100px; left: -150px; animation-delay: 0s; }
+  .orb2 { width: 400px; height: 400px; background: #b388ff; bottom: -80px; right: -100px; animation-delay: -3s; }
+  .orb3 { width: 300px; height: 300px; background: #4a148c; top: 50%; left: 50%; transform: translate(-50%,-50%); animation-delay: -5s; }
+
+  @keyframes drift {
+    from { transform: translate(0, 0) scale(1); }
+    to { transform: translate(30px, 20px) scale(1.08); }
+  }
+
+  /* Partículas */
+  .particles {
+    position: absolute;
+    inset: 0;
+    pointer-events: none;
+  }
+  .particle {
+    position: absolute;
+    width: 2px;
+    height: 2px;
+    background: rgba(179, 136, 255, 0.6);
+    border-radius: 50%;
+    animation: float-up linear infinite;
+  }
+  @keyframes float-up {
+    0% { transform: translateY(100vh) scale(0); opacity: 0; }
+    10% { opacity: 1; }
+    90% { opacity: 0.5; }
+    100% { transform: translateY(-10vh) scale(1.5); opacity: 0; }
+  }
+
+  /* Container central */
+  .splash-center {
+    position: relative;
+    z-index: 10;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    gap: 28px;
+    animation: fadeIn 1s ease forwards;
+  }
+
+  @keyframes fadeIn {
+    from { opacity: 0; transform: translateY(20px); }
+    to { opacity: 1; transform: translateY(0); }
+  }
+
+  /* Logo */
+  .logo-wrapper {
+    position: relative;
+    width: 180px;
+    height: 180px;
+  }
+
+  .logo-ring {
+    position: absolute;
+    inset: -12px;
+    border-radius: 50%;
+    border: 1px solid rgba(179, 136, 255, 0.3);
+    animation: spin 12s linear infinite;
+  }
+  .logo-ring::before {
+    content: '';
+    position: absolute;
+    top: -3px; left: 50%;
+    width: 6px; height: 6px;
+    background: #b388ff;
+    border-radius: 50%;
+    transform: translateX(-50%);
+    box-shadow: 0 0 10px #b388ff;
+  }
+  @keyframes spin { to { transform: rotate(360deg); } }
+
+  .logo-ring2 {
+    position: absolute;
+    inset: -24px;
+    border-radius: 50%;
+    border: 1px solid rgba(106, 27, 154, 0.4);
+    animation: spin 20s linear infinite reverse;
+  }
+
+  .logo-img {
+    width: 180px;
+    height: 180px;
+    object-fit: contain;
+    filter: drop-shadow(0 0 30px rgba(179,136,255,0.5));
+    animation: pulse-glow 3s ease-in-out infinite;
+  }
+
+  @keyframes pulse-glow {
+    0%, 100% { filter: drop-shadow(0 0 20px rgba(179,136,255,0.4)); }
+    50% { filter: drop-shadow(0 0 40px rgba(179,136,255,0.8)); }
+  }
+
+  /* Textos */
+  .titulo {
+    text-align: center;
+    animation: fadeIn 1.2s ease 0.3s both;
+  }
+
+  .titulo h1 {
+    font-family: 'Cormorant Garamond', serif;
+    font-size: 2.8rem;
+    font-weight: 300;
+    color: #fff;
+    letter-spacing: 0.12em;
+    line-height: 1;
+  }
+
+  .titulo h1 span {
+    color: #ce93d8;
+    font-weight: 600;
+  }
+
+  .titulo p {
+    font-size: 0.72rem;
+    letter-spacing: 0.35em;
+    color: rgba(255,255,255,0.45);
+    text-transform: uppercase;
+    margin-top: 8px;
+  }
+
+  .titulo small {
+    display: block;
+    font-size: 0.62rem;
+    letter-spacing: 0.25em;
+    color: rgba(255,255,255,0.25);
+    margin-top: 4px;
+    text-transform: uppercase;
+  }
+
+  /* Barra de loading */
+  .loading-bar-wrap {
+    width: 200px;
+    height: 2px;
+    background: rgba(255,255,255,0.1);
+    border-radius: 2px;
+    overflow: hidden;
+    animation: fadeIn 1s ease 0.6s both;
+  }
+
+  .loading-bar {
+    height: 100%;
+    background: linear-gradient(90deg, #6a1b9a, #ce93d8, #b388ff);
+    border-radius: 2px;
+    animation: load 3s ease forwards;
+  }
+
+  @keyframes load {
+    from { width: 0; }
+    to { width: 100%; }
+  }
+</style>
+</head>
+<body>
+
+<div class="orb orb1"></div>
+<div class="orb orb2"></div>
+<div class="orb orb3"></div>
+
+<div class="particles" id="particles"></div>
+
+<div class="splash-center">
+  <div class="logo-wrapper">
+    <div class="logo-ring2"></div>
+    <div class="logo-ring"></div>
+    <img class="logo-img" src="image.png" alt="Sentinela Lilás">
+  </div>
+
+  <div class="titulo">
+    <h1>SENTINELA <span>LILÁS</span></h1>
+    <p>Inteligência e Proteção</p>
+    <small>SENAC Pernambuco</small>
+  </div>
+
+  <div class="loading-bar-wrap">
+    <div class="loading-bar"></div>
+  </div>
+</div>
+
+<script>
+  // Gerar partículas
+  const container = document.getElementById('particles');
+  for (let i = 0; i < 40; i++) {
+    const p = document.createElement('div');
+    p.className = 'particle';
+    p.style.left = Math.random() * 100 + 'vw';
+    p.style.animationDuration = (6 + Math.random() * 10) + 's';
+    p.style.animationDelay = (Math.random() * 8) + 's';
+    p.style.width = p.style.height = (1 + Math.random() * 3) + 'px';
+    container.appendChild(p);
+  }
+
+  setTimeout(() => { window.location.href = "login.html"; }, 3200);
+</script>
+</body>
+</html>
