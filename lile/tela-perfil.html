@@ -27,7 +27,6 @@
     min-height: 100vh;
   }
 
-  /* TOPBAR */
   .topbar {
     display: flex;
     align-items: center;
@@ -70,7 +69,6 @@
     color: var(--text);
   }
 
-  /* HERO SECTION */
   .hero {
     background: linear-gradient(135deg, #1a0030, #0d001f, #160028);
     padding: 60px 40px 0;
@@ -174,7 +172,6 @@
     50% { opacity: 0.4; }
   }
 
-  /* CONTENT */
   .content {
     max-width: 900px;
     margin: 0 auto;
@@ -232,7 +229,6 @@
     text-align: right;
   }
 
-  /* Stats card */
   .stats-big-grid {
     display: grid;
     grid-template-columns: repeat(3, 1fr);
@@ -266,7 +262,6 @@
     text-transform: uppercase;
   }
 
-  /* Formação */
   .formacao-card {
     background: var(--card);
     border: 1px solid var(--card-border);
@@ -301,7 +296,6 @@
     border-radius: 20px;
   }
 
-  /* Btn salvar */
   .btn-salvar {
     display: flex;
     justify-content: flex-end;
@@ -327,7 +321,6 @@
 </head>
 <body>
 
-<!-- TOPBAR -->
 <div class="topbar">
   <div class="topbar-left">
     <a href="Dashboard.html" class="back-btn">← Voltar</a>
@@ -336,7 +329,6 @@
   <img src="image.png" alt="Logo" style="width:32px; filter: drop-shadow(0 0 8px rgba(168,85,247,0.5));">
 </div>
 
-<!-- HERO -->
 <div class="hero">
   <div class="hero-inner">
     <div class="avatar-wrap">
@@ -351,10 +343,8 @@
   </div>
 </div>
 
-<!-- CONTENT -->
 <div class="content">
 
-  <!-- STATS -->
   <div class="stats-big-grid">
     <div class="stat-big">
       <div class="num">1.250</div>
@@ -370,7 +360,6 @@
     </div>
   </div>
 
-  <!-- INFO GRID -->
   <div class="section-grid">
     <div class="info-card">
       <h3>Dados Pessoais</h3>
@@ -388,7 +377,6 @@
     </div>
   </div>
 
-  <!-- FORMAÇÃO -->
   <div class="formacao-card">
     <h3>Formações e Especializações</h3>
     <div class="tag-grid">
@@ -408,7 +396,6 @@
 </div>
 
 <script>
-  // Carregar dados do usuário logado (Google ou sessionStorage)
   const usuarioStr = sessionStorage.getItem("usuario");
   if (usuarioStr) {
     const u = JSON.parse(usuarioStr);
@@ -417,7 +404,6 @@
     if (u.foto) document.getElementById('avatarImg').src = u.foto;
   }
 
-  // Foto salva localmente
   const fotoSalva = localStorage.getItem("fotoPerfil");
   if (fotoSalva) document.getElementById('avatarImg').src = fotoSalva;
 
