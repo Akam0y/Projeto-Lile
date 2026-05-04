@@ -18,7 +18,7 @@
     font-family: 'DM Sans', sans-serif;
   }
 
-  /* Orbs de fundo */
+
   .orb {
     position: absolute;
     border-radius: 50%;
@@ -35,7 +35,7 @@
     to { transform: translate(30px, 20px) scale(1.08); }
   }
 
-  /* Partículas */
+ 
   .particles {
     position: absolute;
     inset: 0;
@@ -56,7 +56,6 @@
     100% { transform: translateY(-10vh) scale(1.5); opacity: 0; }
   }
 
-  /* Container central */
   .splash-center {
     position: relative;
     z-index: 10;
@@ -72,7 +71,6 @@
     to { opacity: 1; transform: translateY(0); }
   }
 
-  /* Logo */
   .logo-wrapper {
     position: relative;
     width: 180px;
@@ -119,7 +117,6 @@
     50% { filter: drop-shadow(0 0 40px rgba(179,136,255,0.8)); }
   }
 
-  /* Textos */
   .titulo {
     text-align: center;
     animation: fadeIn 1.2s ease 0.3s both;
@@ -156,7 +153,6 @@
     text-transform: uppercase;
   }
 
-  /* Barra de loading */
   .loading-bar-wrap {
     width: 200px;
     height: 2px;
@@ -206,7 +202,6 @@
 </div>
 
 <script>
-  // Gerar partículas
   const container = document.getElementById('particles');
   for (let i = 0; i < 40; i++) {
     const p = document.createElement('div');
