@@ -61,7 +61,6 @@
     to { transform: translate(40px,30px); }
   }
 
-  /* Imagem da pessoa + overlay */
   .hero-image {
     position: absolute;
     inset: 0;
@@ -112,7 +111,6 @@
     color: rgba(255,255,255,0.4);
   }
 
-  /* Stats badges */
   .stats-row {
     display: flex;
     gap: 16px;
@@ -190,7 +188,6 @@
     letter-spacing: 0.05em;
   }
 
-  /* Campo de input */
   .field {
     margin-bottom: 18px;
     position: relative;
@@ -259,7 +256,6 @@
   .btn-entrar:hover { transform: translateY(-1px); box-shadow: 0 8px 25px rgba(124,58,237,0.4); }
   .btn-entrar span { position: relative; z-index: 1; }
 
-  /* Divisor */
   .divisor {
     display: flex;
     align-items: center;
@@ -281,7 +277,6 @@
     text-transform: uppercase;
   }
 
-  /* Botão Google customizado */
   .btn-google {
     width: 100%;
     padding: 13px;
@@ -307,7 +302,6 @@
 
   .btn-google svg { width: 18px; height: 18px; flex-shrink: 0; }
 
-  /* Footer */
   .form-footer {
     margin-top: 32px;
     text-align: center;
@@ -317,7 +311,6 @@
     text-transform: uppercase;
   }
 
-  /* Tema toggle */
   .btn-tema {
     position: absolute;
     top: 24px; right: 24px;
@@ -334,7 +327,6 @@
 
   .btn-tema:hover { background: rgba(255,255,255,0.12); }
 
-  /* Modo claro */
   body.light {
     --purple-deep: #f5f0ff;
   }
@@ -371,7 +363,6 @@
 </head>
 <body>
 
-<!-- LADO VISUAL -->
 <div class="side-visual">
   <div class="hero-image"></div>
   <div class="orb-bg a"></div>
@@ -397,7 +388,6 @@
   </div>
 </div>
 
-<!-- FORMULÁRIO -->
 <div class="side-form">
   <button class="btn-tema" id="themeBtn">🌙</button>
 
@@ -429,7 +419,6 @@
       Entrar com Google
     </button>
 
-    <!-- Google GSI oculto -->
     <div id="g_id_onload"
          data-client_id="SEU_CLIENT_ID_AQUI.apps.googleusercontent.com"
          data-callback="handleGoogleLogin"
@@ -443,7 +432,6 @@
 
 <script src="script.js"></script>
 <script>
-  // Tema
   const themeBtn = document.getElementById('themeBtn');
   if (localStorage.getItem('tema') === 'light') {
     document.body.classList.add('light');
@@ -456,7 +444,6 @@
     localStorage.setItem('tema', isLight ? 'light' : 'dark');
   };
 
-  // Botão Google visual dispara o GSI
   function googleSignIn() {
     google?.accounts?.id?.prompt();
   }
